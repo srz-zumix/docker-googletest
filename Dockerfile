@@ -1,8 +1,9 @@
 FROM alpine:3.6
 
-MAINTAINER srz_zumix <zumix.cpp@gmail.com>
+MAINTAINER srz_zumix <https://github.com/srz-zumix>
 
 ARG BRANCH_OR_TAG=master
+RUN env
 RUN apk add --no-cache -q -f git cmake make g++
 
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /googletest
