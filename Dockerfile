@@ -2,7 +2,7 @@ FROM alpine:3.6
 
 MAINTAINER srz_zumix <https://github.com/srz-zumix>
 
-ARG BRANCH_OR_TAG=master
+ARG BRANCH_OR_TAG=release-1.8.0
 RUN env
 RUN apk add --no-cache -q -f git cmake make g++
 
