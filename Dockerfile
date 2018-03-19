@@ -10,6 +10,6 @@ RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /goo
 RUN mkdir -p /googletest/build
 RUN cd /googletest/build && cmake .. && make && find ./ -name "*.a" | xargs -i cp -v {} /usr/local/lib
 RUN cd /googletest && \
-  cp -r -v googletest/include/gtest /usr/local/include/gtest \
-  cp -r -v googlemock/include/gmock /usr/local/include/gmock
+  cp -r -v googletest/include/ /usr/local/include/ \
+  cp -r -v googlemock/include/ /usr/local/include/
 RUN rm -rf /googletest
