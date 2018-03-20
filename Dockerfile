@@ -10,7 +10,9 @@ RUN apk update && apk upgrade && \
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /googletest
 RUN mkdir -p /googletest/build
 RUN cd /googletest/build && cmake .. && make && find ./ -name "*.a" | xargs -i cp -v {} /usr/local/lib
+RUN ls /googletest
+RUN ls /usr/local
 RUN cd /googletest && \
-  cp -r -v googletest/include/ /usr/local/include/ \
+  cp -r -v googletest/include/ /usr/local/include/ && \
   cp -r -v googlemock/include/ /usr/local/include/
 RUN rm -rf /googletest
