@@ -7,15 +7,15 @@ RUN env
 RUN apk update && apk upgrade && \
   apk add --no-cache -q -f git cmake make g++
 
-RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /googletest
-RUN mkdir -p /googletest/build
-RUN cd /googletest/build && cmake .. && make && find ./ -name "*.a" | xargs -i cp -v {} /usr/local/lib
-RUN cp -r -v /googletest/include/ /usr/local/include/
+RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
+RUN mkdir -p /gtest/build
+RUN cd /gtest/build && cmake .. && make && find ./ -name "*.a" | xargs -i cp -v {} /usr/local/lib
+RUN cp -r -v /gtest/include/ /usr/local/include/
 
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock
 RUN mkdir -p /googlemock/build
 RUN cd /googlemock/build && cmake .. && make && find ./ -name "*.a" | xargs -i cp -v {} /usr/local/lib
 RUN cp -r -v /googlemock/include/ /usr/local/include/
 
-RUN rm -rf /googletest
+RUN rm -rf /gtest
 RUN rm -rf /googlemock
