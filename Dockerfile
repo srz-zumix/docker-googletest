@@ -5,6 +5,7 @@ MAINTAINER srz_zumix <https://github.com/srz-zumix>
 ARG BRANCH_OR_TAG=release-1.4.0
 RUN env
 RUN apk update && apk upgrade && \
+  apk search g++ && \
   apk add --no-cache -q -f git cmake make g++ && \
   apk add --no-cache -q -f --virtual .builddeps automake autoconf libtool python
 
