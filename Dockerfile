@@ -9,6 +9,7 @@ RUN apk update && apk upgrade && \
   apk add -q -f git cmake make g++ && \
   apk add -q -f --virtual .builddeps automake autoconf libtool python
 
+RUN curl http://curl.haxx.se/ca/cacert.pem -o /usr/ssl/certs/ca-bundle.crt
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
 RUN mkdir -p /gtest/build
 RUN cd /gtest && autoreconf -fvi && ./configure && make && make install
