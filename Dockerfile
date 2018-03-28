@@ -1,4 +1,4 @@
-FROM alpine:2.6
+FROM alpine:2.5
 
 MAINTAINER srz_zumix <https://github.com/srz-zumix>
 
