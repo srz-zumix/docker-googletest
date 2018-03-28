@@ -6,8 +6,8 @@ ARG BRANCH_OR_TAG=release-1.4.0
 RUN env
 RUN apk update && apk upgrade && \
   apk search g++ && \
-  apk add --no-cache -q -f git cmake make g++ && \
-  apk add --no-cache -q -f --virtual .builddeps automake autoconf libtool python
+  apk add -q -f git cmake make g++ && \
+  apk add -q -f --virtual .builddeps automake autoconf libtool python
 
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
 RUN mkdir -p /gtest/build
