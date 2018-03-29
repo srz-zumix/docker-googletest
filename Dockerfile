@@ -17,5 +17,5 @@ RUN mv /gtest /googlemock/gtest
 RUN cd /googlemock && autoreconf -fvi && ./configure && make && make install
 
 RUN rm -rf /googlemock
-RUN apt-get purge automake autoconf libtool python
+#RUN apt-get purge automake autoconf libtool python
 RUN apt-get clean
