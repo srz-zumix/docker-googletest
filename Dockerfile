@@ -4,7 +4,7 @@ MAINTAINER srz_zumix <https://github.com/srz-zumix>
 
 ARG BRANCH_OR_TAG=release-1.4.0
 RUN env
-RUN apt-get update \
+RUN apt-get update && \
   apt-get install -y -q git cmake make && \
   apt-get install -y -q automake autoconf libtool python
 
