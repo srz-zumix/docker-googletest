@@ -10,7 +10,6 @@ RUN apt-get update && \
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
 RUN mkdir -p /gtest/build
 RUN cd /gtest/build && cmake .. && make && find ./ -name "*.a" | xargs -i cp -v {} /usr/local/lib
-RUN  [ ! -e /usr/local/include ] && mkdir -p /usr/local/include
 RUN cp -rv /gtest/include/gtest/. /usr/local/include/gtest/
 
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock
