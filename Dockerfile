@@ -6,7 +6,8 @@ ARG BRANCH_OR_TAG=release-1.4.0
 RUN env
 RUN apt-get update && \
   apt-get install -y -q git cmake make && \
-  apt-get install -y -q automake autoconf libtool python
+  apt-get install -y -q automake autoconf libtool python && \
+  apt-get install -y -q libstdc++6
 
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
 RUN mkdir -p /gtest/build
