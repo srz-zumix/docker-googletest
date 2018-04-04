@@ -4,10 +4,11 @@ MAINTAINER srz_zumix <https://github.com/srz-zumix>
 
 ARG BRANCH_OR_TAG=release-1.4.0
 RUN env
+RUN cat /etc/os-release
 RUN apt-get update && \
   apt-get install -y -q git cmake make && \
   apt-get install -y -q automake autoconf libtool python && \
-  apt-get install -y -q libstdc++6-4.8-dev
+  apt-get dist-upgrade
 RUN strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
 
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
