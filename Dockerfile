@@ -3,7 +3,7 @@ FROM gcc:4.6
 MAINTAINER srz_zumix <https://github.com/srz-zumix>
 
 ARG BRANCH_OR_TAG=release-1.2.1
-ARG GMOCK_BRANCH_OR_TAG=release-1.1.0
+ARG GMOCK_BRANCH_OR_TAG=release-1.0.0
 RUN env
 RUN apt-get update && \
   apt-get install -y -q git cmake make && \
