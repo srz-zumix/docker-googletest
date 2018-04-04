@@ -7,7 +7,8 @@ RUN env
 RUN apt-get update && \
   apt-get install -y -q git cmake make && \
   apt-get install -y -q automake autoconf libtool python && \
-  apt-get install -y -q libstdc++6
+  apt-get install -y -q libstdc++6-4.6-dev
+RUN strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
 
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
 RUN mkdir -p /gtest/build
