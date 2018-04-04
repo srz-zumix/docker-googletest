@@ -1,13 +1,22 @@
-FROM alpine:3.6
+FROM gcc:4.6
 
 MAINTAINER srz_zumix <https://github.com/srz-zumix>
 
 ARG BRANCH_OR_TAG=release-1.2.0
+ARG GMOCK_BRANCH_OR_TAG=release-1.1.0
 RUN env
-RUN apk add --no-cache -q -f git cmake make g++
+RUN apt-get update && \
+  apt-get install -y -q git cmake make && \
+  apt-get install -y -q automake autoconf libtool python
 
-RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /googletest
-RUN mkdir -p /googletest/build
-RUN cd /googletest/build \
-  && cmake .. && make && make install
-RUN rm -rf /googletest
+RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
+RUN mkdir -p /gtest/build
+RUN cd /gtest && autoreconf -fvi && ./configure && make && make install
+
+RUN git clone -b $GMOCK_BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock
+RUN mv /gtest /googlemock/gtest
+RUN cd /googlemock && autoreconf -fvi && ./configure && make && make install
+
+RUN rm -rf /googlemock
+#RUN apt-get purge automake autoconf libtool python
+RUN apt-get clean
