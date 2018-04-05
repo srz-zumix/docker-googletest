@@ -4,10 +4,11 @@ MAINTAINER srz_zumix <https://github.com/srz-zumix>
 
 ARG BRANCH_OR_TAG=release-1.4.0
 RUN env
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test
 RUN apt-get update && \
   apt-get install -y -q git cmake make g++-4.6 && \
   apt-get install -y -q automake autoconf libtool python && \
-  apt-get install -y -q libstdc++6-4.7-dev libstdc++-4.8-dev 
+  apt-get upgrade libstdc++6
 RUN strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 20 && \
     update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.6 20 
