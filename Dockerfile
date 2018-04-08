@@ -7,7 +7,7 @@ RUN env
 RUN apt-get update && \
     apt-get install -y -q software-properties-common && \
     apt-get install -y -q git cmake make g++-4.6 && \
-    apt-get install -y -q automake autoconf libtool python && \
+    apt-get install -y -q automake autoconf libtool python
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test && \
     apt-get upgrade libstdc++6
 RUN strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
