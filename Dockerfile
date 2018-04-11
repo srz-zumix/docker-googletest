@@ -4,9 +4,9 @@ MAINTAINER srz_zumix <https://github.com/srz-zumix>
 
 ARG BRANCH_OR_TAG=release-1.4.0
 RUN env
-RUN apt-get update && \
-    apt-get install -y -q software-properties-common && \
-    add-apt-repository ppa:ubuntu-toolchain-r/test
+#RUN apt-get update && \
+#    apt-get install -y -q software-properties-common && \
+#    add-apt-repository ppa:ubuntu-toolchain-r/test
 RUN apt-get update && \
     apt-get install -y -q git cmake make g++-4.6 && \
     apt-get install -y -q automake autoconf libtool python && \
