@@ -9,12 +9,18 @@ RUN apt-get update -qq && \
     add-apt-repository ppa:ubuntu-toolchain-r/test
 RUN apt-get update -qq && \
     apt-get install -y -q git cmake make g++-4.6 && \
-    apt-get install -y -q automake autoconf libtool python && \
-    apt-get install -y -q libstdc++-4.9-dev
+    apt-get install -y -q automake autoconf libtool python
+#    apt-get install -y -q libstdc++-4.9-dev
 #    apt-get install -y -q libstdc++6
 RUN strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 20 && \
-    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.6 20 
+    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.6 20 && \
+    rm /usr/bin/cpp && \
+    update-alternatives --install /usr/bin/cpp cpp /usr/bin/cpp-4.6 20 && \
+    update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 20 && \
+    update-alternatives --set cc /usr/bin/gcc && \
+    update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 20 && \
+    update-alternatives --set c++ /usr/bin/g++
 
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
 RUN mkdir -p /gtest/build
