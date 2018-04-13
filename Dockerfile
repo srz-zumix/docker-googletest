@@ -12,6 +12,7 @@ RUN apt-get update -qq && \
     apt-get install -y -q automake autoconf libtool python
 
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
+RUN cp /gtest/m4 /m4
 RUN mkdir -p /gtest/build
 RUN cd /gtest && autoreconf -fvi && ./configure && make && make install
 
