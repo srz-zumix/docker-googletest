@@ -13,7 +13,7 @@ RUN apt-get update -qq && \
 
 RUN git --version
 RUN git clone -q https://github.com/google/googletest.git /gtest
-RUN git checkout -b $BRANCH_OR_TAG -q refs/tags/$BRANCH_OR_TAG
+RUN cd /gtest && git checkout -b $BRANCH_OR_TAG -q refs/tags/$BRANCH_OR_TAG
 RUN mkdir -p /gtest/build
 RUN cd /gtest && autoreconf -fvi && ./configure && make && make install
 
