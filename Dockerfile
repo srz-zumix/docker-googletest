@@ -4,12 +4,15 @@ MAINTAINER srz_zumix <https://github.com/srz-zumix>
 
 ARG BRANCH_OR_TAG=release-1.4.0
 RUN env
-#RUN apt-get update -qq && \
-#    apt-get install -y -qq software-properties-common && \
-#    add-apt-repository ppa:ubuntu-toolchain-r/test
+RUN apt-get update -qq && \
+    apt-get install -y -qq software-properties-common && \
+    add-apt-repository ppa:ubuntu-toolchain-r/test
 RUN apt-get update -qq && \
     apt-get install -y -qq git cmake make build-essential && \
     apt-get install -y -qq automake autoconf libtool python
+RUN apt-get update -qq && \
+    apt-get upgrade -qq && \
+    apt-get dist-upgrade -qq && \
 
 RUN git --version
 RUN git clone -q https://github.com/google/googletest.git /gtest
