@@ -17,7 +17,8 @@ RUN cd /gtest && git checkout -b $BRANCH_OR_TAG -q refs/tags/$BRANCH_OR_TAG
 RUN mkdir -p /gtest/build
 RUN cd /gtest && autoreconf -fvi && ./configure && make && make install
 
-RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock
+RUN git clone -q https://github.com/google/googlemock.git /googlemock
+RUN cd /googlemock && git checkout -b $BRANCH_OR_TAG -q refs/tags/$BRANCH_OR_TAG
 RUN mv /gtest /googlemock/gtest
 RUN cd /googlemock && autoreconf -fvi && ./configure && make && make install
 
