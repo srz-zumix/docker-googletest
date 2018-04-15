@@ -4,6 +4,7 @@ MAINTAINER srz_zumix <https://github.com/srz-zumix>
 
 ARG BRANCH_OR_TAG=release-1.4.0
 RUN env
+RUN rm -fR /var/lib/apt/lists/*
 RUN apt-get update -qq && \
     apt-get install -y -qq software-properties-common && \
     add-apt-repository ppa:ubuntu-toolchain-r/test
