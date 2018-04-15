@@ -12,7 +12,7 @@ RUN apt-get update -qq && \
     apt-get install -y -qq automake autoconf libtool python
 RUN apt-get update -qq && \
     apt-get upgrade -qq && \
-    apt-get dist-upgrade -qq && \
+    apt-get dist-upgrade -qq
 
 RUN git --version
 RUN git clone -q https://github.com/google/googletest.git /gtest
