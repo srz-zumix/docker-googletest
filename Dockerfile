@@ -10,12 +10,14 @@ RUN apt-get update && \
 
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
 RUN mkdir -p /gtest/build
-RUN cd /gtest/build && cmake -DBUILD_SHARED_LIBS=ON .. && make && find ./ -name "*.a" -o -name "*.so" | xargs -i cp -v {} /usr/local/lib
+RUN cd /gtest/build && cmake -DBUILD_SHARED_LIBS=ON .. && make && find ./ -name "*.a" | xargs -i cp -v {} /usr/local/lib
 RUN cp -rv /gtest/include/gtest/. /usr/local/include/gtest/
 
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock
 RUN mv /gtest /googlemock/gtest
 RUN cd /googlemock && autoreconf -fvi && ./configure && make && make install
+
+RUN bash -c 'echo /usr/local/lib >> /etc/ld.so.conf.d/usr_local_path.conf' && ldconfig
 
 RUN rm -rf /googlemock
 RUN apt-get clean
