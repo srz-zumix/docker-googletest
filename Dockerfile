@@ -13,7 +13,7 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 20 && \
 
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
 RUN mkdir -p /gtest/build
-RUN cd /gtest && autoreconf -fvi && ./configure && make && make install
+#RUN cd /gtest && autoreconf -fvi && ./configure && make && make install
 
 RUN git clone -b $GMOCK_BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock
 RUN mv /gtest /googlemock/gtest
