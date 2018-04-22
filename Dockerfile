@@ -13,8 +13,7 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 20 && \
 
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
 COPY gtest-filepath.patch /gtest/src/
-RUN cd /gtest/src && patch -p1 gtest-filepath.patch
-RUN cat /gtest/src/gtest-filepath.cc
+RUN cd /gtest/src && ls && patch -p0 gtest-filepath.patch
 RUN mkdir -p /gtest/build
 #RUN cd /gtest && autoreconf -fvi && ./configure && make && make install
 
