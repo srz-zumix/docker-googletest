@@ -18,6 +18,8 @@ RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googlemock.git /goo
 RUN mv /gtest /googlemock/gtest
 RUN cd /googlemock && autoreconf -fvi && ./configure && make && make install
 
+RUN bash -c 'echo /usr/local/lib >> /etc/ld.so.conf.d/usr_local_path.conf' && ldconfig
+
 RUN rm -rf /googlemock
 #RUN apt-get purge automake autoconf libtool python
 RUN apt-get clean
