@@ -1,0 +1,19 @@
+dist: trusty
+sudo: false
+language: cpp
+
+before_script:
+  - git clone https://github.com/google/googletest.git ./gtest
+  - cd ./gtest
+  - git rev-parse HEAD > ../gtest.hash
+  - cd ..
+
+script:
+  - git checkout master
+  - git add -A
+  - git commit -m "update head [ci skip]"
+  - git push https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git ${TRAVIS_BRANCH}
+
+env:
+  global:
+    secure: OdxIMgUsZyGyOOnV49MkJW5KrGVW7KyCwUkWgC88YmdJPCtNJ9fF69TcM8ek252+yFJsfpUrZaNH6A6igRUreveoA161zy+fsD9mMqIrrthFWx5S2fzBCsiCobreduicCDt5EJ1p8N/QlpEB2ZeUbYWqZf37r5BfYOJI86521qYMiI30IAwxsjPqhcbyFRisTKosd3LlEo4Y+K3qLgdCKEAhsaOrtIgrbxz7cM2sKh8lYTquP1XPtFwsmCoELyeRAVEJbSwADcaw3011S/NB8Kn9+sd878dxBK2iDxSilVz+3XIz+/sKZHNFGug5i2UA2yS8ZfWQhZjF9tiF3quTAzqAFzTbxDKswMLHgD8oI0saIVDmXNxc6PXLYXEjx5p5Z3E1iTb09hcp5wOqJOz+Ynie7EkVyUO2DKJhjeuGffoPxjK35L4c7/ufTNskT3+vUnGG/2U9XMA3OeXoCLp+V7BRgkZtpVZssA4viTWXPG4byaEQaiAMK0ArVOesa86m21xuKSLhdNqQ/WRT8g/eEVqs4XrT1ogIW1nsjYHv6Xmcs8QD2iQxDdWHx4pQojod8lSdwn/HFqXTOf6KxqTk5mpJmcd2ZxyDocynTEtvtt+uNtVyJh+gXt06eGD/rlbV1eC+Uc5FMQE2P1Uya3RdaZvMZjYGzVcZMrPcv/gklbY=
