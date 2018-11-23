@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 MAINTAINER srz_zumix <https://github.com/srz-zumix>
 
-ARG BRANCH_OR_TAG=release-1.8.0
+ARG BRANCH_OR_TAG=release-1.8.1
 RUN env
 RUN apt-get update && \
   apt-get install -q -y git cmake make g++
