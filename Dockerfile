@@ -7,6 +7,7 @@ RUN env
 RUN apt-get update && \
   apt-get install -q -y git cmake make g++
 
+RUN echo $BRANCH_OR_TAG
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /googletest
 RUN mkdir -p /googletest/build
 RUN cd /googletest/build \
