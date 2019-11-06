@@ -9,7 +9,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        git clone https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com:srz-zumix/iutest.git
+        git clone https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/srz-zumix/iutest.git
     - uses: docker://srzzumix/googletest:latest
       with:
         entrypoint: bash
