@@ -10,7 +10,7 @@ jobs:
       with:
         entrypoint: bash
         args: -c "cd $GITHUB_WORKSPACE/sample &&
-          g++ main.cpp -o sample &&
+          g++ main.cpp -o sample -lgtest -lpthread &&
           ./sample"
   example-iutest:
     runs-on: ubuntu-latest
