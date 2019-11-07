@@ -8,7 +8,7 @@ jobs:
     - uses: docker://srzzumix/googletest:latest
       with:
         entrypoint: bash
-        args: -c "cd sample &&
+        args: -c "cd $GITHUB_WORKSPACE/sample &&
           $CXX main.cpp -o sample &&
           ./sample"
   example-iutest:
