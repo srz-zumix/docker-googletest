@@ -5,6 +5,15 @@ jobs:
   example:
     runs-on: ubuntu-latest
     steps:
+    - uses: docker://srzzumix/googletest:latest
+      with:
+        entrypoint: bash
+        args: -c "cd sample &&
+          $CXX main.cpp -o sample &&
+          ./sample"
+  example-iutest:
+    runs-on: ubuntu-latest
+    steps:
     - name: Clone iutest repository
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
