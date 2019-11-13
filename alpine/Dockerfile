@@ -2,7 +2,7 @@ FROM alpine:latest
 
 LABEL maintainer "srz_zumix <https://github.com/srz-zumix>"
 
-ARG BRANCH_OR_TAG=master
+ARG BRANCH_OR_TAG=release-1.10.0
 RUN env \
   && apk update && apk upgrade \
   && apk add --no-cache -q -f git cmake make g++

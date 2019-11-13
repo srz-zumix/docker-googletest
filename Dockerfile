@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 LABEL maintainer "srz_zumix <https://github.com/srz-zumix>"
 
-ARG BRANCH_OR_TAG=master
+ARG BRANCH_OR_TAG=release-1.10.0
 RUN env \
   && apt-get update \
   && apt-get install -q -y git cmake make g++ \
