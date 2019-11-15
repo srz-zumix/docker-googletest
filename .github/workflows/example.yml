@@ -24,7 +24,6 @@ jobs:
       run: |
         BRANCH=${GITHUB_REF#refs/heads/}
         echo $BRANCH
-        BRANCH=release-1.8.0
         if [ "$BRANCH" = "master" ]; then
           echo "::set-env name=GTEST_EXPECT_LATEST::1"
         fi
