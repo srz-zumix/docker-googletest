@@ -36,10 +36,14 @@ jobs:
           GTEST_EXPECT_VERSION=0x${MAJOR}${MINOR}${MICRO}00
           echo "::set-env GTEST_EXPECT_VERSION=$GTEST_EXPECT_VERSION"
         fi
+    - name: show env
+      run: |
+        echo ${GTEST_EXPECT_VERSION}
+        echo ${GTEST_EXPECT_LATEST}
     - uses: docker://srzzumix/googletest:latest
       env:
-        GTEST_EXPECT_VERSION: ${GTEST_EXPECT_VERSION}
-        GTEST_EXPECT_LATEST: ${GTEST_EXPECT_LATEST}
+        GTEST_EXPECT_VERSION: $${GTEST_EXPECT_VERSION}
+        GTEST_EXPECT_LATEST: $${GTEST_EXPECT_LATEST}
       with:
         entrypoint: bash
         args: -c "cd iutest/test &&
