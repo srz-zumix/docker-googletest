@@ -28,12 +28,13 @@ jobs:
         if [ "$BRANCH" = "master" ]; then
           echo ::set-env GTEST_EXPECT_LATEST=1"
         fi
-        if [[ "$BRANCH" =~ release-[0-9]+.[0-9]+.[0-9]+ ]]; then
+        if [[ "$BRANCH" =~ release-[0-9]+\.[0-9]+\.[0-9]+ ]]; then
           VERSION=${BRANCH#release-}
           MAJOR=`echo $VERSION | cut -d '.' -f 1 | xargs -P1 printf "%02g"`
           MINOR=`echo $VERSION | cut -d '.' -f 2 | xargs -P1 printf "%02g"`
           MICRO=`echo $VERSION | cut -d '.' -f 3 | xargs -P1 printf "%02g"`
-          echo ::set-env GTEST_EXPECT_VERSION=0x${MAJOR}${MINOR}${MICRO}00"
+          GTEST_EXPECT_VERSION=0x${MAJOR}${MINOR}${MICRO}00
+          echo ::set-env GTEST_EXPECT_VERSION=$GTEST_EXPECT_VERSION"
         fi
     - uses: docker://srzzumix/googletest:latest
       with:
