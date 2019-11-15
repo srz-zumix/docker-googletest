@@ -26,7 +26,7 @@ jobs:
         echo $BRANCH
         BRANCH=release-1.8.0
         if [ "$BRANCH" = "master" ]; then
-          echo ::set-env GTEST_EXPECT_LATEST=1"
+          echo "::set-env GTEST_EXPECT_LATEST=1"
         fi
         if [[ "$BRANCH" =~ release-[0-9]+\.[0-9]+\.[0-9]+ ]]; then
           VERSION=${BRANCH#release-}
@@ -34,7 +34,7 @@ jobs:
           MINOR=`echo $VERSION | cut -d '.' -f 2 | xargs -P1 printf "%02g"`
           MICRO=`echo $VERSION | cut -d '.' -f 3 | xargs -P1 printf "%02g"`
           GTEST_EXPECT_VERSION=0x${MAJOR}${MINOR}${MICRO}00
-          echo ::set-env GTEST_EXPECT_VERSION=$GTEST_EXPECT_VERSION"
+          echo "::set-env GTEST_EXPECT_VERSION=$GTEST_EXPECT_VERSION"
         fi
     - uses: docker://srzzumix/googletest:latest
       with:
