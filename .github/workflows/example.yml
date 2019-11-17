@@ -20,10 +20,26 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         git clone https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/srz-zumix/iutest.git
+    - name: setup-test-env
+      run: |
+        BRANCH=${GITHUB_REF#refs/heads/}
+        echo $BRANCH
+        BRANCH=release-1.8.0
+        if [ "$BRANCH" = "master" ]; then
+          echo "::set-env GTEST_EXPECT_LATEST=1"
+        fi
+        if [[ "$BRANCH" =~ release-[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+          VERSION=${BRANCH#release-}
+          MAJOR=`echo $VERSION | cut -d '.' -f 1 | xargs -P1 printf "%02g"`
+          MINOR=`echo $VERSION | cut -d '.' -f 2 | xargs -P1 printf "%02g"`
+          MICRO=`echo $VERSION | cut -d '.' -f 3 | xargs -P1 printf "%02g"`
+          GTEST_EXPECT_VERSION=0x${MAJOR}${MINOR}${MICRO}00
+          echo "::set-env GTEST_EXPECT_VERSION=$GTEST_EXPECT_VERSION"
+        fi
     - uses: docker://srzzumix/googletest:latest
       with:
         entrypoint: bash
         args: -c "cd iutest/test &&
           make showcxxversion &&
-          make USE_GTEST=1             GTEST_EXPECT_VER=${GTEST_EXPECT_VERSION} GTEST_EXPECT_LATEST=1 gtest-version &&
-          make USE_GTEST=1 USE_GMOCK=1 GTEST_EXPECT_VER=${GTEST_EXPECT_VERSION} GTEST_EXPECT_LATEST=1 gtest-version"
+          make USE_GTEST=1             GTEST_EXPECT_VER=${GTEST_EXPECT_VERSION} GTEST_EXPECT_LATEST=${GTEST_EXPECT_LATEST} gtest-version &&
+          make USE_GTEST=1 USE_GMOCK=1 GTEST_EXPECT_VER=${GTEST_EXPECT_VERSION} GTEST_EXPECT_LATEST=${GTEST_EXPECT_LATEST} gtest-version"
