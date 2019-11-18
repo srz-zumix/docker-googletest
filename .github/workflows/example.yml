@@ -34,12 +34,15 @@ jobs:
           MICRO=`echo $VERSION | cut -d '.' -f 3 | xargs -P1 printf "%02g"`
           GTEST_EXPECT_VERSION=0x${MAJOR}${MINOR}${MICRO}00
           echo "::set-env name=GTEST_EXPECT_VERSION::${GTEST_EXPECT_VERSION}"
+          echo "::set-env name=DOCKER_GOOGLETEST_VERSION::${BRANCH}"
+        else
+          echo "::set-env name=DOCKER_GOOGLETEST_VERSION::latest"
         fi
     - name: show env
       run: |
         echo ${GTEST_EXPECT_VERSION}
         echo ${GTEST_EXPECT_LATEST}
-    - uses: docker://srzzumix/googletest:latest
+    - uses: docker://srzzumix/googletest:${DOCKER_GOOGLETEST_VERSION}
       with:
         entrypoint: bash
         args: -c "cd iutest/test &&
