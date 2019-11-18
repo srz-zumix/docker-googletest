@@ -42,6 +42,7 @@ jobs:
       run: |
         echo ${GTEST_EXPECT_VERSION}
         echo ${GTEST_EXPECT_LATEST}
+        echo ${DOCKER_GOOGLETEST_VERSION}
     - uses: docker://srzzumix/googletest:${DOCKER_GOOGLETEST_VERSION}
       with:
         entrypoint: bash
