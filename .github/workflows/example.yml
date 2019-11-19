@@ -4,6 +4,7 @@ on: [push]
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    steps:
     - name: setup-test-env
       run: |
         BRANCH=${GITHUB_REF#refs/heads/}
