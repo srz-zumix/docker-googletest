@@ -2,7 +2,7 @@ name: Example
 on: [push]
 
 env:
-  DOCKER_GOOGLETEST_VERSION: lastest
+  DOCKER_GOOGLETEST_VERSION: latest
 
 jobs:
   example:
@@ -19,7 +19,7 @@ jobs:
   example-iutest:
     runs-on: ubuntu-latest
     container:
-      image: docker://srzzumix/googletest:lastest
+      image: docker://srzzumix/googletest:latest
     steps:
     - name: Clone iutest repository
       env:
