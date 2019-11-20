@@ -1,11 +1,15 @@
 name: Example
 on: [push]
 
+env:
+  DOCKER_GOOGLETEST_VERSION: lastest
+
 jobs:
   example:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    # uses example
     - uses: docker://srzzumix/googletest:latest
       with:
         entrypoint: bash
@@ -14,6 +18,8 @@ jobs:
           ./sample"
   example-iutest:
     runs-on: ubuntu-latest
+    container:
+      image: docker://srzzumix/googletest:lastest
     steps:
     - name: Clone iutest repository
       env:
@@ -43,10 +49,9 @@ jobs:
         echo ${GTEST_EXPECT_VERSION}
         echo ${GTEST_EXPECT_LATEST}
         echo ${DOCKER_GOOGLETEST_VERSION}
-    - uses: docker://srzzumix/googletest:${DOCKER_GOOGLETEST_VERSION}
-      with:
-        entrypoint: bash
-        args: -c "cd iutest/test &&
-          make showcxxversion &&
-          make USE_GTEST=1             GTEST_EXPECT_VER=${GTEST_EXPECT_VERSION} GTEST_EXPECT_LATEST=${GTEST_EXPECT_LATEST} gtest-version &&
-          make USE_GTEST=1 USE_GMOCK=1 GTEST_EXPECT_VER=${GTEST_EXPECT_VERSION} GTEST_EXPECT_LATEST=${GTEST_EXPECT_LATEST} gtest-version"
+    - name: test
+      run: |
+        cd iutest/test
+        make showcxxversion
+        make USE_GTEST=1             GTEST_EXPECT_VER=${GTEST_EXPECT_VERSION} GTEST_EXPECT_LATEST=${GTEST_EXPECT_LATEST} gtest-version
+        make USE_GTEST=1 USE_GMOCK=1 GTEST_EXPECT_VER=${GTEST_EXPECT_VERSION} GTEST_EXPECT_LATEST=${GTEST_EXPECT_LATEST} gtest-version
