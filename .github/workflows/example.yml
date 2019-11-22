@@ -12,11 +12,13 @@ jobs:
       run: |
         echo ${{ env['DOCKER_GOOGLETEST_VERSION'] }}
   example:
+    env:
+      DOCKER_GOOGLETEST_VERSION: latest
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
     # uses example
-    - uses: docker://srzzumix/googletest:latest
+    - uses: docker://srzzumix/googletest:${{ env['DOCKER_GOOGLETEST_VERSION'] }}
       with:
         entrypoint: bash
         args: -c "cd $GITHUB_WORKSPACE/sample &&
