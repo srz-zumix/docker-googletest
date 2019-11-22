@@ -19,7 +19,7 @@ jobs:
   example-iutest:
     runs-on: ubuntu-latest
     container:
-      image: docker://srzzumix/googletest:$${DOCKER_GOOGLETEST_VERSION}
+      image: docker://srzzumix/googletest:${{DOCKER_GOOGLETEST_VERSION}}
     steps:
     - name: Clone iutest repository
       env:
