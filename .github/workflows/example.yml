@@ -12,7 +12,6 @@ jobs:
       run: |
         echo ${{ env }}
         echo ${{ env["DOCKER_GOOGLETEST_VERSION"] }}
-        echo ${{ env.DOCKER_GOOGLETEST_VERSION }}
   example:
     runs-on: ubuntu-latest
     steps:
