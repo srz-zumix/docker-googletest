@@ -11,6 +11,7 @@ jobs:
     - name: env
       run: |
         echo ${{ env }}
+        echo ${{ env.env }}
   example:
     runs-on: ubuntu-latest
     steps:
