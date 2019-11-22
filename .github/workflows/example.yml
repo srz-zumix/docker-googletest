@@ -5,19 +5,12 @@ env:
   DOCKER_GOOGLETEST_VERSION: latest
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - name: env
-      run: |
-        echo ${{ env }}
-        echo ${{ env['DOCKER_GOOGLETEST_VERSION'] }}
   example:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
     # uses example
-    - uses: docker://srzzumix/googletest:latest
+    - uses: docker://srzzumix/googletest:${{ env['DOCKER_GOOGLETEST_VERSION'] }}
       with:
         entrypoint: bash
         args: -c "cd $GITHUB_WORKSPACE/sample &&
@@ -26,7 +19,7 @@ jobs:
   example-iutest:
     runs-on: ubuntu-latest
     container:
-      image: docker://srzzumix/googletest:latest
+      image: docker://srzzumix/googletest:${{ env['DOCKER_GOOGLETEST_VERSION'] }}
     steps:
     - name: Clone iutest repository
       env:
