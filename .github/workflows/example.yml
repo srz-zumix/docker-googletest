@@ -1,24 +1,22 @@
 name: Example
 on: [push]
 
-env:
-  DOCKER_GOOGLETEST_VERSION: latest
+# env:
+#   DOCKER_GOOGLETEST_VERSION: latest
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - name: env
-      run: |
-        echo ${{ env['DOCKER_GOOGLETEST_VERSION'] }}
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: env
+  #     run: |
+  #       echo ${{ env['DOCKER_GOOGLETEST_VERSION'] }}
   example:
-    env:
-      DOCKER_GOOGLETEST_VERSION: latest
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
     # uses example
-    - uses: docker://srzzumix/googletest:${{ env['DOCKER_GOOGLETEST_VERSION'] }}
+    - uses: docker://srzzumix/googletest:latest
       with:
         entrypoint: bash
         args: -c "cd $GITHUB_WORKSPACE/sample &&
