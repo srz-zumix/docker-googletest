@@ -1,11 +1,21 @@
 name: Example
 on: [push]
 
+# env:
+#   DOCKER_GOOGLETEST_VERSION: latest
+
 jobs:
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: env
+  #     run: |
+  #       echo ${{ env['DOCKER_GOOGLETEST_VERSION'] }}
   example:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    # uses example
     - uses: docker://srzzumix/googletest:latest
       with:
         entrypoint: bash
@@ -14,6 +24,8 @@ jobs:
           ./sample"
   example-iutest:
     runs-on: ubuntu-latest
+    container:
+      image: docker://srzzumix/googletest:latest
     steps:
     - name: Clone iutest repository
       env:
@@ -24,9 +36,8 @@ jobs:
       run: |
         BRANCH=${GITHUB_REF#refs/heads/}
         echo $BRANCH
-        BRANCH=release-1.8.0
         if [ "$BRANCH" = "master" ]; then
-          echo "::set-env GTEST_EXPECT_LATEST=1"
+          echo "::set-env name=GTEST_EXPECT_LATEST::1"
         fi
         if [[ "$BRANCH" =~ release-[0-9]+\.[0-9]+\.[0-9]+ ]]; then
           VERSION=${BRANCH#release-}
@@ -34,12 +45,19 @@ jobs:
           MINOR=`echo $VERSION | cut -d '.' -f 2 | xargs -P1 printf "%02g"`
           MICRO=`echo $VERSION | cut -d '.' -f 3 | xargs -P1 printf "%02g"`
           GTEST_EXPECT_VERSION=0x${MAJOR}${MINOR}${MICRO}00
-          echo "::set-env GTEST_EXPECT_VERSION=$GTEST_EXPECT_VERSION"
+          echo "::set-env name=GTEST_EXPECT_VERSION::${GTEST_EXPECT_VERSION}"
+          echo "::set-env name=DOCKER_GOOGLETEST_VERSION::${BRANCH}"
+        else
+          echo "::set-env name=DOCKER_GOOGLETEST_VERSION::latest"
         fi
-    - uses: docker://srzzumix/googletest:latest
-      with:
-        entrypoint: bash
-        args: -c "cd iutest/test &&
-          make showcxxversion &&
-          make USE_GTEST=1             GTEST_EXPECT_VER=${GTEST_EXPECT_VERSION} GTEST_EXPECT_LATEST=${GTEST_EXPECT_LATEST} gtest-version &&
-          make USE_GTEST=1 USE_GMOCK=1 GTEST_EXPECT_VER=${GTEST_EXPECT_VERSION} GTEST_EXPECT_LATEST=${GTEST_EXPECT_LATEST} gtest-version"
+    - name: show env
+      run: |
+        echo ${GTEST_EXPECT_VERSION}
+        echo ${GTEST_EXPECT_LATEST}
+        echo ${DOCKER_GOOGLETEST_VERSION}
+    - name: test
+      run: |
+        cd iutest/test
+        make showcxxversion
+        make USE_GTEST=1             GTEST_EXPECT_VER=${GTEST_EXPECT_VERSION} GTEST_EXPECT_LATEST=${GTEST_EXPECT_LATEST} gtest-version
+        make USE_GTEST=1 USE_GMOCK=1 GTEST_EXPECT_VER=${GTEST_EXPECT_VERSION} GTEST_EXPECT_LATEST=${GTEST_EXPECT_LATEST} gtest-version
