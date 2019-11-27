@@ -1,0 +1,63 @@
+name: Example
+on: [push]
+
+# env:
+#   DOCKER_GOOGLETEST_VERSION: latest
+
+jobs:
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: env
+  #     run: |
+  #       echo ${{ env['DOCKER_GOOGLETEST_VERSION'] }}
+  example:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    # uses example
+    - uses: docker://srzzumix/googletest:latest
+      with:
+        entrypoint: bash
+        args: -c "cd $GITHUB_WORKSPACE/sample &&
+          g++ main.cpp -o sample -lgtest -lpthread &&
+          ./sample"
+  example-iutest:
+    runs-on: ubuntu-latest
+    container:
+      image: docker://srzzumix/googletest:latest
+    steps:
+    - name: Clone iutest repository
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git clone https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/srz-zumix/iutest.git
+    - name: setup-test-env
+      run: |
+        BRANCH=${GITHUB_REF#refs/heads/}
+        echo $BRANCH
+        if [ "$BRANCH" = "master" ]; then
+          echo "::set-env name=GTEST_EXPECT_LATEST::1"
+        fi
+        if [[ "$BRANCH" =~ release-[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+          VERSION=${BRANCH#release-}
+          MAJOR=`echo $VERSION | cut -d '.' -f 1 | xargs -P1 printf "%02g"`
+          MINOR=`echo $VERSION | cut -d '.' -f 2 | xargs -P1 printf "%02g"`
+          MICRO=`echo $VERSION | cut -d '.' -f 3 | xargs -P1 printf "%02g"`
+          GTEST_EXPECT_VERSION=0x${MAJOR}${MINOR}${MICRO}00
+          echo "::set-env name=GTEST_EXPECT_VERSION::${GTEST_EXPECT_VERSION}"
+          echo "::set-env name=DOCKER_GOOGLETEST_VERSION::${BRANCH}"
+        else
+          echo "::set-env name=DOCKER_GOOGLETEST_VERSION::latest"
+        fi
+    - name: show env
+      run: |
+        echo ${GTEST_EXPECT_VERSION}
+        echo ${GTEST_EXPECT_LATEST}
+        echo ${DOCKER_GOOGLETEST_VERSION}
+    - name: test
+      run: |
+        cd iutest/test
+        make showcxxversion
+        make USE_GTEST=1             GTEST_EXPECT_VER=${GTEST_EXPECT_VERSION} GTEST_EXPECT_LATEST=${GTEST_EXPECT_LATEST} gtest-version
+        make USE_GTEST=1 USE_GMOCK=1 GTEST_EXPECT_VER=${GTEST_EXPECT_VERSION} GTEST_EXPECT_LATEST=${GTEST_EXPECT_LATEST} gtest-version
