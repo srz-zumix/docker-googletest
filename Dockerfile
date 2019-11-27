@@ -8,14 +8,14 @@ RUN env && \
   apt-get install -q -y git cmake make g++ && \
   apt-get clean
 
-RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
+RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
 RUN mkdir -p /gtest/build
 WORKDIR /gtest/build
 RUN cmake .. && make && \
   find ./ -name "*.a" | xargs -i cp -v {} /usr/local/lib && \
   cp -rv /gtest/include/gtest/. /usr/local/include/gtest/
 
-RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock
+RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock
 RUN mkdir -p /googlemock/build
 WORKDIR /googlemock/build
 RUN cmake .. && make && \
