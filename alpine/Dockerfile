@@ -16,7 +16,6 @@ RUN cmake .. \
   && [ ! -e /usr/local/include ] && mkdir -p /usr/local/include \
   ;  cp -rv /gtest/include/gtest/. /usr/local/include/gtest/
 
-WORKDIR /
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock
 RUN mkdir -p /googlemock/build
 WORKDIR /googlemock/build
