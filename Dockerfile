@@ -6,6 +6,7 @@ ARG BRANCH_OR_TAG=release-1.5.0
 RUN env \
   && apt-get update \
   && apt-get install -q -y git cmake make g++ \
+  && apt-get install -y -q automake autoconf libtool python \
   && apt-get clean
 
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
