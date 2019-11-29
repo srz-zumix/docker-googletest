@@ -9,8 +9,7 @@ RUN env \
   && apk add --no-cache -q -f --virtual .builddeps automake autoconf libtool python
 
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
-RUN mkdir -p /gtest/build
-WORKDIR /gtest/build
+WORKDIR /gtest
 RUN autoreconf -fvi \
   && ./configure \
   && make \
