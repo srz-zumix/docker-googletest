@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:latest
 
 LABEL maintainer "srz_zumix <https://github.com/srz-zumix>"
 
