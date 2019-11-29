@@ -11,11 +11,10 @@ RUN env \
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
 RUN mkdir -p /gtest/build
 WORKDIR /gtest/build
-RUN cmake .. \
+RUN autoreconf -fvi \
+  && ./configure \
   && make \
-  && find ./ -name "*.a" | xargs -i cp -v {} /usr/local/lib \
-  && [ ! -e /usr/local/include ] && mkdir -p /usr/local/include \
-  ;  cp -rv /gtest/include/gtest/. /usr/local/include/gtest/
+  && make install
 
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock \
   && mv /gtest /googlemock/gtest
