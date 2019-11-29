@@ -12,7 +12,6 @@ RUN env \
   && apt-get clean
 
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
-RUN mkdir -p /gtest/build
 WORKDIR /gtest
 RUN autoreconf -fvi \
   && ./configure \
