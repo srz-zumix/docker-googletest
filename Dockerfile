@@ -14,7 +14,7 @@ RUN env \
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
 WORKDIR /gtest
 RUN autoreconf -fvi \
-  && ./configure CXXFLAGS=`-std=c++03` \
+  && ./configure \
   && make \
   && make install
 
