@@ -5,7 +5,7 @@ LABEL maintainer "srz_zumix <https://github.com/srz-zumix>"
 ARG BRANCH_OR_TAG=master
 RUN env \
   && apt-get update \
-  && apt-get install -q -y git cmake make g++ \
+  && apt-get install -q -y git cmake make g++ lcov \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
