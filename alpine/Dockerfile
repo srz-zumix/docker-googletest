@@ -5,7 +5,7 @@ LABEL maintainer "srz_zumix <https://github.com/srz-zumix>"
 ARG BRANCH_OR_TAG=release-1.6.0
 RUN env \
   && apk update && apk upgrade \
-  && apk add --no-cache -q -f git cmake make g++
+  && apk add --no-cache -q -f git cmake make g++ lcov
 
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
 RUN mkdir -p /gtest/build
@@ -22,5 +22,7 @@ WORKDIR /googlemock/build
 RUN cmake .. \
   && make \
   && find ./ -name "*.a" | xargs -i cp -v {} /usr/local/lib \
-  && cp -rv /googlemock/include/gmock/. /usr/local/include/gmock/ \
-  && rm -rf /gtest && rm -rf /googlemock
+  && cp -rv /googlemock/include/gmock/. /usr/local/include/gmock/
+RUN mkdir -p /code
+WORKDIR /code
+RUN rm -rf /gtest && rm -rf /googlemock
