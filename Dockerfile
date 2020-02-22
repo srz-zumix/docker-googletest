@@ -13,14 +13,14 @@ RUN env && \
 
 RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
 RUN mkdir -p /gtest/build
-RUN cd /gtest && autoreconf -fvi && ./configure && make && make install
+WORKDIR /gtest
+RUN autoreconf -fvi && \
+  ./configure && \
+  make && \
+  make install
 
-RUN git clone -b $GMOCK_BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock
-RUN mv /gtest /googlemock/gtest
-RUN cd /googlemock && autoreconf -fvi && ./configure && make && make install
-
-RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock \
-  && mv /gtest /googlemock/gtest
+RUN git clone -b $GMOCK_BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock && \
+  mv /gtest /googlemock/gtest
 WORKDIR /googlemock
 RUN autoreconf -fvi \
   && ./configure \
