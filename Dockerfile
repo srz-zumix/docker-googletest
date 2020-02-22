@@ -5,7 +5,7 @@ LABEL maintainer "srz_zumix <https://github.com/srz-zumix>"
 ARG BRANCH_OR_TAG=release-1.5.0
 RUN env \
   && apt-get update \
-  && apt-get install -q -y git cmake make g++ \
+  && apt-get install -q -y git cmake make g++ lcov \
   && apt-get install -y -q automake autoconf libtool python \
   && apt-get clean
 
@@ -25,5 +25,7 @@ RUN autoreconf -fvi \
   && make \
   && make install \
   && bash -c 'echo /usr/local/lib >> /etc/ld.so.conf.d/usr_local_path.conf' \
-  && ldconfig \
-  && rm -rf /googlemock
+  && ldconfig
+RUN mkdir -p /code
+WORKDIR /code
+RUN rm -rf /googlemock

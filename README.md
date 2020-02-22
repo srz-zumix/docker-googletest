@@ -12,3 +12,26 @@
 ## About
 
 Google Test Docker Container
+
+## How to Use
+
+### GitHub Actions
+
+```yml
+name: Example
+on: [push]
+jobs:
+  example:
+    runs-on: ubuntu-latest
+    container:
+      image: docker://srzzumix/googletest:latest
+    steps:
+    - uses: actions/checkout@master
+    - name: your build and test
+      run: |
+        make
+        make test
+```
+
+[![GitHub Actions Example Status](https://github.com/srz-zumix/docker-googletest/workflows/Example/badge.svg?branch=master)](https://github.com/srz-zumix/docker-googletest/actions)
+ is the actual running sample.
