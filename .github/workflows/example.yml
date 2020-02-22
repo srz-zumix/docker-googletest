@@ -16,11 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     # uses example
-<<<<<<< HEAD
     - uses: docker://srzzumix/googletest:release-1.8.1
-=======
-    - uses: docker://srzzumix/googletest:release-1.10.0
->>>>>>> origin/release-1.10.0
       with:
         entrypoint: bash
         args: -c "cd $GITHUB_WORKSPACE/sample &&
@@ -29,11 +25,7 @@ jobs:
   example-iutest:
     runs-on: ubuntu-latest
     container:
-<<<<<<< HEAD
       image: docker://srzzumix/googletest:release-1.8.1
-=======
-      image: docker://srzzumix/googletest:release-1.10.0
->>>>>>> origin/release-1.10.0
     steps:
     - name: Clone iutest repository
       env:
