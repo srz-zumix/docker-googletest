@@ -7,7 +7,8 @@ ARG CMAKE_OPTIONS=
 ENV DEBIAN_FRONTEND=noninteractive
 RUN env \
   && apt-get update \
-  && apt-get install -q -y git cmake make g++ lcov gettext-base \
+  && apt-get install -q -y git cmake make g++ lcov \
+    gettext-base jq \ # for JFrog Pipelines
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
