@@ -5,7 +5,7 @@ LABEL maintainer "srz_zumix <https://github.com/srz-zumix>"
 ARG BRANCH_OR_TAG=master
 RUN env \
   && apk update && apk upgrade \
-  && apk add --no-cache -q -f git cmake make g++ lcov
+  && apk add --no-cache -q -f git cmake make g++ lcov gettext-base jq curl
 
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /googletest
 RUN mkdir -p /googletest/build
