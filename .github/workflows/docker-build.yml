@@ -10,25 +10,14 @@ jobs:
       - name: Create tagname
         id: create_tagname
         run: |
-          NAME_=${GITHUB_REF#refs/heads/}
+          REF=${GITHUB_HEAD_REF:-${GITHUB_REF}}
+          NAME_=${REF#refs/heads/}
           NAME=${NAME_#refs/tags/}
           if [ "$NAME" = "master" ]; then
             echo "##[set-output name=tagname;]$(echo latest)"
           else
             echo "##[set-output name=tagname;]$(echo ${NAME})"
           fi
-        if: "!github.event.pull_request"
-      - name: Create tagname
-        id: create_tagname
-        run: |
-          NAME_=${GITHUB_HEAD_REF#refs/heads/}
-          NAME=${NAME_#refs/tags/}
-          if [ "$NAME" = "master" ]; then
-            echo "##[set-output name=tagname;]$(echo latest)"
-          else
-            echo "##[set-output name=tagname;]$(echo ${NAME})"
-          fi
-        if: github.event.pull_request
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         with:
