@@ -22,7 +22,7 @@ jobs:
   push_to_registries:
     runs-on: ubuntu-latest
     needs: prepare
-    if: "! contains(${{ needs.prepare.outputs.tagname }}, '/')"
+    if: "! contains(needs.prepare.outputs.tagname, '/')"
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
