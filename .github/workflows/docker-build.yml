@@ -18,6 +18,8 @@ jobs:
           else
             echo "##[set-output name=tagname;]$(echo ${NAME})"
           fi
+      - run: |
+          echo ${{ steps.create_tagname.outputs.tagname }}
 
   push_to_registries:
     runs-on: ubuntu-latest
