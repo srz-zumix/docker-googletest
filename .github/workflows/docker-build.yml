@@ -6,11 +6,13 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       tagname: ${{ steps.create_tagname.outputs.tagname }}
+    env:
+      CONTEXT_REF: ${{ github.ref }}
     steps:
       - name: Create tagname
         id: create_tagname
         run: |
-          REF=${GITHUB_HEAD_REF:-${GITHUB_REF}}
+          REF=${GITHUB_HEAD_REF:=${CONTEXT_REF}}
           NAME_=${REF#refs/heads/}
           NAME=${NAME_#refs/tags/}
           if [ "$NAME" = "master" ]; then
@@ -18,6 +20,8 @@ jobs:
           else
             echo "##[set-output name=tagname;]$(echo ${NAME})"
           fi
+      - run: |
+          echo ${{ steps.create_tagname.outputs.tagname }}
 
   push_to_registries:
     runs-on: ubuntu-latest
