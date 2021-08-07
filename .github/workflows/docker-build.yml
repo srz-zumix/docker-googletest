@@ -27,6 +27,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: prepare
     if: "! contains(needs.prepare.outputs.tagname, '/')"
+    env:
+      TAGNAME: ${{ needs.prepare.outputs.tagname }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -39,10 +41,10 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: srzzumix/googletest:${{ steps.create_tagname.outputs.tagname }}
+          tags: srzzumix/googletest:${{ needs.prepare.outputs.tagname }}
       - name: Push to Docker Hub (alpine)
         uses: docker/build-push-action@v2
         with:
           context: alpine
           push: true
-          tags: srzzumix/googletest:${{ steps.create_tagname.outputs.tagname }}-alpine
+          tags: srzzumix/googletest:${{ needs.prepare.outputs.tagname }}-alpine
