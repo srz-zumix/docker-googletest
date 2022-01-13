@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 LABEL maintainer "srz_zumix <https://github.com/srz-zumix>"
 
-ARG BRANCH_OR_TAG=master
+ARG BRANCH_OR_TAG=main
 ARG CMAKE_OPTIONS=
 ENV DEBIAN_FRONTEND=noninteractive
 RUN env \
