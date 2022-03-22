@@ -20,7 +20,7 @@ jobs:
           git config user.name ${{ github.actor }}
           git config user.email noreply@github.com
           git add -A
-          git commit -m "update head [ci skip]" || true
+          git commit -m "update googletest head" || true
       - name: push
         run: |
           git push origin master
