@@ -16,9 +16,9 @@ jobs:
           NAME_=${REF#refs/heads/}
           NAME=${NAME_#refs/tags/}
           if [ "$NAME" = "master" ]; then
-            echo "##[set-output name=tagname;]$(echo latest)"
+            echo "tagname=latest" >> "${GITHUB_OUTPUT}"
           else
-            echo "##[set-output name=tagname;]$(echo ${NAME})"
+            echo "tagname=${NAME}" >> "${GITHUB_OUTPUT}"
           fi
       - run: |
           echo ${{ steps.create_tagname.outputs.tagname }}
@@ -31,7 +31,7 @@ jobs:
       TAGNAME: ${{ needs.prepare.outputs.tagname }}
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         with:
