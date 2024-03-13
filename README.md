@@ -26,7 +26,7 @@ jobs:
     container:
       image: docker://srzzumix/googletest:latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v3
     - name: your build and test
       run: |
         make
