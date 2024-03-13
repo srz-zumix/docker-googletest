@@ -16,7 +16,7 @@ jobs:
     outputs:
       tagname: ${{ steps.create_tagname.outputs.tagname }}
     env:
-      CONTEXT_REF: ${{ inputs.ref || github.base_ref || github.ref }}
+      INPUTS_REF: ${{ inputs.ref || github.base_ref || github.ref }}
     steps:
       - name: dump github context
         env:
@@ -26,8 +26,7 @@ jobs:
       - name: Create tagname
         id: create_tagname
         run: |
-          REF=${GITHUB_HEAD_REF:=${CONTEXT_REF}}
-          NAME_=${REF#refs/heads/}
+          NAME_=${INPUTS_REF#refs/heads/}
           NAME=${NAME_#refs/tags/}
           if [ "$NAME" = "master" ]; then
             echo "tagname=latest" >> "${GITHUB_OUTPUT}"
