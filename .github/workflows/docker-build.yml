@@ -2,6 +2,8 @@ name: Docker Build
 on: 
   push:
   pull_request:
+    branches:
+      - master
   workflow_dispatch:
     inputs:
       ref:
@@ -14,7 +16,7 @@ jobs:
     outputs:
       tagname: ${{ steps.create_tagname.outputs.tagname }}
     env:
-      CONTEXT_REF: ${{ inputs.ref || github.ref }}
+      CONTEXT_REF: ${{ inputs.ref || github.base_ref || github.ref }}
     steps:
       - name: Create tagname
         id: create_tagname
@@ -36,6 +38,7 @@ jobs:
     if: "${{ ! contains(needs.prepare.outputs.tagname, '/') }}"
     env:
       TAGNAME: ${{ needs.prepare.outputs.tagname }}
+      PUBLISH: ${{ github.event_name != 'pull_request' }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -47,11 +50,11 @@ jobs:
       - name: Push to Docker Hub
         uses: docker/build-push-action@v5
         with:
-          push: true
+          push: ${{ env.PUBLISH }}
           tags: srzzumix/googletest:${{ needs.prepare.outputs.tagname }}
       - name: Push to Docker Hub (alpine)
         uses: docker/build-push-action@v5
         with:
           context: alpine
-          push: true
+          push: ${{ env.PUBLISH }}
           tags: srzzumix/googletest:${{ needs.prepare.outputs.tagname }}-alpine
