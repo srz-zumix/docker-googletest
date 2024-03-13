@@ -18,6 +18,11 @@ jobs:
     env:
       CONTEXT_REF: ${{ inputs.ref || github.base_ref || github.ref }}
     steps:
+      - name: dump github context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "${GITHUB_CONTEXT}"
       - name: Create tagname
         id: create_tagname
         run: |
