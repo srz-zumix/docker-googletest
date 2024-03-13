@@ -16,6 +16,11 @@ on:
       publish:
         type: boolean
         default: false
+    secrets:
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
 
 jobs:
   prepare:
