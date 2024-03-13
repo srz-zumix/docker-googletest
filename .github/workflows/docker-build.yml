@@ -7,7 +7,7 @@ on:
 
 jobs:
   docker-build:
-    uses: srz-zumix/docker-googletest/.github/workflows/reusable-docker-build.yml@master
+    uses: srz-zumix/docker-googletest/.github/workflows/reusable-docker-build.yml@feature/migrate_reusable
     with:
       ref: ${{ github.base_ref || github.ref }}
       publish: ${{ github.event_name != 'pull_request' }}
