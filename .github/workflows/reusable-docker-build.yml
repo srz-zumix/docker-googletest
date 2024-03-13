@@ -1,0 +1,76 @@
+name: Docker Build Workflow
+on: 
+  workflow_dispatch:
+    inputs:
+      ref:
+        type: string
+        default: ""
+      publish:
+        type: boolean
+        default: false
+  workflow_call:
+    inputs:
+      ref:
+        type: string
+        default: ""
+      publish:
+        type: boolean
+        default: false
+    secrets:
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      tagname: ${{ steps.create_tagname.outputs.tagname }}
+    env:
+      INPUTS_REF: ${{ inputs.ref || github.base_ref || github.ref }}
+    steps:
+      - name: dump github context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "${GITHUB_CONTEXT}"
+      - name: Create tagname
+        id: create_tagname
+        run: |
+          NAME_=${INPUTS_REF#refs/heads/}
+          NAME=${NAME_#refs/tags/}
+          if [ "$NAME" = "master" ]; then
+            echo "tagname=latest" >> "${GITHUB_OUTPUT}"
+          else
+            echo "tagname=${NAME}" >> "${GITHUB_OUTPUT}"
+          fi
+      - run: |
+          echo ${{ steps.create_tagname.outputs.tagname }}
+
+  push_to_registries:
+    runs-on: ubuntu-latest
+    needs: prepare
+    if: "${{ ! contains(needs.prepare.outputs.tagname, '/') }}"
+    env:
+      TAGNAME: ${{ needs.prepare.outputs.tagname }}
+      PUBLISH: ${{ github.event_name != 'pull_request' }}
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push to Docker Hub
+        uses: docker/build-push-action@v5
+        with:
+          push: ${{ inputs.publish }}
+          tags: srzzumix/googletest:${{ needs.prepare.outputs.tagname }}
+      - name: Push to Docker Hub (alpine)
+        uses: docker/build-push-action@v5
+        with:
+          context: alpine
+          push: ${{ inputs.publish }}
+          tags: srzzumix/googletest:${{ needs.prepare.outputs.tagname }}-alpine
