@@ -59,10 +59,21 @@ jobs:
       TAGNAME: ${{ needs.prepare.outputs.tagname }}
       PUBLISH: ${{ github.event_name != 'pull_request' }}
     steps:
+      - name: Resolve build branch
+        id: resolve
+        env:
+          INPUTS_REF: ${{ inputs.ref || github.ref_name }}
+        run: |
+          git ls-remote --heads --exit-code ${{ github.event.repository.html_url }} "refs/heads/${{ env.INPUTS_REF }}"
+          if [ "$?" == "1" ]; then
+            echo "branch=${{ github.ref_name }}" >> "${GITHUB_OUTPUT}"
+          else
+            echo "branch=${{ env.INPUTS_REF }}" >> "${GITHUB_OUTPUT}"
+          fi
       - name: Check out the repo
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.ref || github.ref }}
+          ref: ${{ steps.resolve.outputs.branch }}
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         with:
