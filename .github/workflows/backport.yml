@@ -45,7 +45,7 @@ jobs:
       - name: pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: >-
+        run: >
           gh pr create 
             --base ${{ matrix.branch }}
             --head ${{ env.HEAD_BRANCH }}
