@@ -15,8 +15,8 @@ jobs:
       - name: List branches
         id: branches
         run: |
-          BRANCHES=$(git ls-remote --heads ${{ github.repository }} | grep release | cut -f2 | cut -d"/" -f3 | jq -R | jq -cs)
-          echo "json=${BRANCHES}" | tee -a ${GITHUB_OUTPUT}
+          BRANCHES=$(git ls-remote --heads ${{ github.repositoryUrl }} | grep release | cut -f2 | cut -d"/" -f3 | jq -R | jq -cs)
+          echo "json=${BRANCHES}" | tee -a "${GITHUB_OUTPUT}"
 
   backport:
     runs-on: ubuntu-latest
