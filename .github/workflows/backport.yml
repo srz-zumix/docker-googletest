@@ -15,7 +15,7 @@ jobs:
       - name: List branches
         id: branches
         run: |
-          BRANCHES=$(git ls-remote --heads ${{ github.repositoryUrl }} | grep release | cut -f2 | cut -d"/" -f3 | jq -R | jq -cs)
+          BRANCHES=$(git ls-remote --heads ${{ github.event.repository.html_url }} | grep release | cut -f2 | cut -d"/" -f3 | jq -R | jq -cs)
           echo "json=${BRANCHES}" | tee -a "${GITHUB_OUTPUT}"
 
   backport:
@@ -45,5 +45,5 @@ jobs:
             --base ${{ matrix.branch }}
             --head ${{ env.HEAD_BRANCH }}
             --title "backport to ${{ matrix.branch }}"
-            --body "[runs](${{ github.repositoryUrl }}/actions/runs/${{ github.run_id }})"
+            --body "[runs](${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }})"
                         
