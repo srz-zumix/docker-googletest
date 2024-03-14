@@ -39,7 +39,7 @@ jobs:
           git switch -C ${{ env.HEAD_BRANCH }}
           git config user.name ${{ github.actor }}
           git config user.email noreply@github.com
-          git merge master
+          git merge origin/master
       - name: pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
