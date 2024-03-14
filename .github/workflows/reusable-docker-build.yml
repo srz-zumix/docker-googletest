@@ -27,6 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       tagname: ${{ steps.create_tagname.outputs.tagname }}
+      branch: ${{ steps.create_tagname.outputs.branch }}
     env:
       INPUTS_REF: ${{ inputs.ref || github.base_ref || github.ref }}
     steps:
@@ -42,8 +43,10 @@ jobs:
           NAME=${NAME_#refs/tags/}
           if [ "$NAME" = "master" ]; then
             echo "tagname=latest" >> "${GITHUB_OUTPUT}"
+            echo "branch=main" >> "${GITHUB_OUTPUT}"
           else
             echo "tagname=${NAME}" >> "${GITHUB_OUTPUT}"
+            echo "branch=${NAME}" >> "${GITHUB_OUTPUT}"
           fi
       - run: |
           echo ${{ steps.create_tagname.outputs.tagname }}
@@ -68,9 +71,13 @@ jobs:
         with:
           push: ${{ inputs.publish }}
           tags: srzzumix/googletest:${{ needs.prepare.outputs.tagname }}
+          build-args: |
+            BRANCH_OR_TAG=${{ needs.prepare.outputs.branch }}
       - name: Push to Docker Hub (alpine)
         uses: docker/build-push-action@v5
         with:
           context: alpine
           push: ${{ inputs.publish }}
           tags: srzzumix/googletest:${{ needs.prepare.outputs.tagname }}-alpine
+          build-args: |
+            BRANCH_OR_TAG=${{ needs.prepare.outputs.branch }}
