@@ -63,12 +63,13 @@ jobs:
         id: resolve
         env:
           INPUTS_REF: ${{ inputs.ref || github.ref_name }}
+        continue-on-error: true
         run: |
           git ls-remote --heads --exit-code ${{ github.event.repository.html_url }} "refs/heads/${{ env.INPUTS_REF }}"
-          if [ "$?" == "1" ]; then
-            echo "branch=${{ github.ref_name }}" >> "${GITHUB_OUTPUT}"
-          else
+          if [ "$?" == "0" ]; then
             echo "branch=${{ env.INPUTS_REF }}" >> "${GITHUB_OUTPUT}"
+          else
+            echo "branch=${{ github.ref_name }}" >> "${GITHUB_OUTPUT}"
           fi
       - name: Check out the repo
         uses: actions/checkout@v4
