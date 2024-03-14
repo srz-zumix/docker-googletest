@@ -2,7 +2,7 @@ name: Backport
 on:
   workflow_dispatch:
   pull_request:
-    
+
 permissions:
   contents: write
   pull-requests: write
@@ -43,6 +43,9 @@ jobs:
           git config user.name ${{ github.actor }}
           git config user.email noreply@github.com
           git merge origin/master
+      - name: push
+        run: |
+          git push -u origin "$(git branch --show-current)"
       - name: pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -52,4 +55,4 @@ jobs:
             --head ${{ env.HEAD_BRANCH }} \
             --title "backport to ${{ matrix.branch }}" \
             --body "[runs](${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }})"
-                        
+
