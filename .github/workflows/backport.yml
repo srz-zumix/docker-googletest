@@ -45,10 +45,10 @@ jobs:
       - name: pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: >
-          gh pr create 
-            --base ${{ matrix.branch }}
-            --head ${{ env.HEAD_BRANCH }}
-            --title "backport to ${{ matrix.branch }}"
+        run: |
+          gh pr create \
+            --base ${{ matrix.branch }} \
+            --head ${{ env.HEAD_BRANCH }} \
+            --title "backport to ${{ matrix.branch }}" \
             --body "[runs](${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }})"
                         
