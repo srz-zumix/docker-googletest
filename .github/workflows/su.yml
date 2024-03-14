@@ -1,9 +1,9 @@
+name: Submodule Update
 on: 
   pull_request:
   schedule:
     - cron: '0 0 * * *'
     
-name: Submodule Update
 jobs:
   submodule_update:
     runs-on: ubuntu-latest
