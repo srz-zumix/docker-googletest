@@ -62,18 +62,18 @@ jobs:
       - name: Resolve build branch
         id: resolve
         env:
-          INPUTS_REF: ${{ inputs.ref || github.ref_name }}
+          INPUTS_REF: ${{ inputs.ref || github.base_ref || github.ref_name }}
         continue-on-error: true
         run: |
           if git ls-remote --heads --exit-code ${{ github.event.repository.html_url }} "refs/heads/${{ env.INPUTS_REF }}"; then
             echo "branch=${{ env.INPUTS_REF }}" >> "${GITHUB_OUTPUT}"
           else
-            echo "branch=${{ github.ref_name }}" >> "${GITHUB_OUTPUT}"
+            echo "branch=${{ github.ref }}" >> "${GITHUB_OUTPUT}"
           fi
       - name: Check out the repo
         uses: actions/checkout@v4
-        # with:
-        #   ref: ${{ steps.resolve.outputs.branch }}
+        with:
+          ref: ${{ steps.resolve.outputs.branch }}
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         with:

@@ -24,7 +24,7 @@ jobs:
           echo "json=${TAGS}" | tee -a "${GITHUB_OUTPUT}"
 
   docker-build:
-    uses: srz-zumix/docker-googletest/.github/workflows/reusable-docker-build.yml@master
+    uses: srz-zumix/docker-googletest/.github/workflows/reusable-docker-build.yml@feature/cron_matrix_build
     needs: get-googletest-tags
     strategy:
       fail-fast: false
