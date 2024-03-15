@@ -1,0 +1,35 @@
+name: Docker Build Cron
+on:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * 1'
+
+env:
+  GOOGLETEST_REPO_URL: https://github.com/google/googletest
+
+jobs:
+  get-googletest-tags:
+    runs-on: ubuntu-latest
+    outputs:
+      tags: ${{ steps.tags.outputs.json }}
+    steps:
+      - name: List branches
+        id: tags
+        env:
+          BRANCH_LIST_FILE: ${{ runner.temp }}/branch-list.txt
+        run: |
+          git ls-remote --tags "${{ env.GOOGLETEST_REPO_URL }}" | grep 'release-[0-9]\.[0-9]*\.[0-9]*$' | cut -f2 | cut -d"/" -f3 >> "${{ env.BRANCH_LIST_FILE }}"
+          git ls-remote --tags "${{ env.GOOGLETEST_REPO_URL }}" | grep 'v[0-9]\.[0-9]*\.[0-9]*$' | cut -f2 | cut -d"/" -f3 >> "${{ env.BRANCH_LIST_FILE }}"
+          TAGS=$(jq -R < "${{ env.BRANCH_LIST_FILE }}" | jq -cs)
+          echo "json=${TAGS}" | tee -a "${GITHUB_OUTPUT}"
+
+  docker-build:
+    uses: srz-zumix/docker-googletest/.github/workflows/reusable-docker-build.yml@master
+    needs: get-googletest-tags
+    strategy:
+      matrix:
+        tag: ${{ fromJson(needs.get-googletest-tags.outputs.tags) }}
+    with:
+      ref: ${{ matrix.tag }}
+      publish: ${{ github.event_name != 'pull_request' }}
+    secrets: inherit
