@@ -27,6 +27,7 @@ jobs:
     uses: srz-zumix/docker-googletest/.github/workflows/reusable-docker-build.yml@master
     needs: get-googletest-tags
     strategy:
+      fail-fast: false
       matrix:
         tag: ${{ fromJson(needs.get-googletest-tags.outputs.tags) }}
     with:
