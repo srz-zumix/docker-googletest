@@ -5,14 +5,16 @@ LABEL maintainer "srz_zumix <https://github.com/srz-zumix>"
 ARG BRANCH_OR_TAG=release-1.4.0
 RUN env \
   && apk update && apk upgrade \
-  && apk add --no-cache -q -f git cmake make g++ lcov \
-  && apk add --no-cache -q -f --virtual .builddeps automake autoconf libtool python
+  && apk add --no-cache git cmake make g++ \
+  && apk add --no-cache --virtual .builddeps automake autoconf libtool
 
-RUN g++ --version
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
+COPY patch /tmp/patch
+RUN git -C /gtest apply /tmp/patch/$BRANCH_OR_TAG.patch
 WORKDIR /gtest
-RUN autoreconf -fvi \
-  && ./configure CXXFLAGS='-std=c++03' \
+RUN g++ --version \
+  && autoreconf -fvi \
+  && ./configure \
   && make \
   && make install
 
@@ -26,4 +28,4 @@ RUN autoreconf -fvi \
   && apk del .builddeps
 RUN mkdir -p /code
 WORKDIR /code
-RUN rm -rf /googlemock
+RUN rm -rf /googlemock /tmp/patch
