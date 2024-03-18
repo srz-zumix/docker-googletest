@@ -1,18 +1,17 @@
-FROM ubuntu:trusty
+FROM ubuntu:latest
 
 LABEL maintainer "srz_zumix <https://github.com/srz-zumix>"
 
-ARG BRANCH_OR_TAG=release-1.3.0
-ARG GMOCK_BRANCH_OR_TAG=release-1.1.0
-RUN env && \
-  apt-get update && \
-  apt-get install -y -q git cmake make g++-4.6 lcov && \
-  apt-get install -y -q automake autoconf libtool python && \
-  update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 20 && \
-  update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.6 20
+ARG BRANCH_OR_TAG=release-1.4.0
+RUN env \
+  && apt-get update \
+  && apt-get install -y -q git cmake make g++ lcov \
+  && apt-get install -y -q automake autoconf libtool python-is-python3 \
+  && apt-get clean
 
-RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
-RUN mkdir -p /gtest/build
+RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
+COPY patch /tmp/patch
+RUN git -C /gtest apply /tmp/patch/$BRANCH_OR_TAG.patch
 WORKDIR /gtest
 RUN autoreconf -fvi && \
   ./configure && \
