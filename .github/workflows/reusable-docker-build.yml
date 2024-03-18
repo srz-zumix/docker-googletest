@@ -88,7 +88,7 @@ jobs:
             BRANCH_OR_TAG=${{ needs.prepare.outputs.branch }}
       - name: Copy patch
         run: |
-          cp patch alpine/patch
+          cp -r patch alpine/patch
       - name: Push to Docker Hub (alpine)
         uses: docker/build-push-action@v5
         with:
