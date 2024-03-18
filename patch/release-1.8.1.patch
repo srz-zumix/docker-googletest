@@ -1,0 +1,13 @@
+diff --git a/googletest/src/gtest-death-test.cc b/googletest/src/gtest-death-test.cc
+index 09083551..bf492118 100644
+--- a/googletest/src/gtest-death-test.cc
++++ b/googletest/src/gtest-death-test.cc
+@@ -1219,7 +1219,7 @@ static void StackLowerThanAddress(const void* ptr, bool* result) {
+ // Make sure AddressSanitizer does not tamper with the stack here.
+ GTEST_ATTRIBUTE_NO_SANITIZE_ADDRESS_
+ static bool StackGrowsDown() {
+-  int dummy;
++  int dummy = 0;
+   bool result;
+   StackLowerThanAddress(&dummy, &result);
+   return result;
