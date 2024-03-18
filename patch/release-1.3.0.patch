@@ -1,0 +1,19 @@
+diff --git a/include/gtest/gtest-param-test.h b/include/gtest/gtest-param-test.h
+index 421517d5..84740d68 100644
+--- a/include/gtest/gtest-param-test.h
++++ b/include/gtest/gtest-param-test.h
+@@ -155,6 +155,14 @@ INSTANTIATE_TEST_CASE_P(AnotherInstantiationName, FooTest, ValuesIn(pets));
+ 
+ #include <gtest/internal/gtest-internal.h>
+ #include <gtest/internal/gtest-param-util.h>
++
++namespace testing {
++
++template <typename T, size_t N>
++internal::ParamGenerator<T> ValuesIn(const T (&array)[N]);
++
++}
++
+ #include <gtest/internal/gtest-param-util-generated.h>
+ 
+ namespace testing {
