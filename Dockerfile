@@ -13,9 +13,11 @@ RUN env \
   && rm -rf /var/lib/apt/lists/*
 
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /googletest
+COPY patch/*.patch /tmp/patch
+RUN git -C /googletest apply /tmp/patch/$BRANCH_OR_TAG.patch || true
 RUN mkdir -p /googletest/build
 WORKDIR /googletest/build
 RUN cmake .. ${CMAKE_OPTIONS} && make && make install
 RUN mkdir -p /code
 WORKDIR /code
-RUN rm -rf /googletest
+RUN rm -rf /googletest /tmp/patch
