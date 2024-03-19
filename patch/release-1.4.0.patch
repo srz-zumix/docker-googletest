@@ -1,19 +1,15 @@
-diff --git a/include/gtest/gtest-param-test.h b/include/gtest/gtest-param-test.h
-index 6c8622a6..99cfb94a 100644
---- a/include/gtest/gtest-param-test.h
-+++ b/include/gtest/gtest-param-test.h
-@@ -156,6 +156,14 @@ INSTANTIATE_TEST_CASE_P(AnotherInstantiationName, FooTest, ValuesIn(pets));
- 
- #include <gtest/internal/gtest-internal.h>
+diff --git a/include/gtest/internal/gtest-param-util-generated.h b/include/gtest/internal/gtest-param-util-generated.h
+index b709517c..44cd335e 100644
+--- a/include/gtest/internal/gtest-param-util-generated.h
++++ b/include/gtest/internal/gtest-param-util-generated.h
+@@ -55,6 +55,10 @@
  #include <gtest/internal/gtest-param-util.h>
-+
-+namespace testing {
+ 
+ namespace testing {
 +
 +template <typename T, size_t N>
 +internal::ParamGenerator<T> ValuesIn(const T (&array)[N]);
 +
-+}
-+
- #include <gtest/internal/gtest-param-util-generated.h>
+ namespace internal {
  
- namespace testing {
+ // Used in the Values() function to provide polymorphic capabilities.
