@@ -1,0 +1,15 @@
+diff --git a/include/gtest/internal/gtest-param-util-generated.h b/include/gtest/internal/gtest-param-util-generated.h
+index b709517c..44cd335e 100644
+--- a/include/gtest/internal/gtest-param-util-generated.h
++++ b/include/gtest/internal/gtest-param-util-generated.h
+@@ -55,6 +55,10 @@
+ #include <gtest/internal/gtest-param-util.h>
+ 
+ namespace testing {
++
++template <typename T, size_t N>
++internal::ParamGenerator<T> ValuesIn(const T (&array)[N]);
++
+ namespace internal {
+ 
+ // Used in the Values() function to provide polymorphic capabilities.

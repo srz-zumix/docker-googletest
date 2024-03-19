@@ -1,26 +1,25 @@
-FROM ubuntu:trusty
+FROM ubuntu:latest
 
 LABEL maintainer "srz_zumix <https://github.com/srz-zumix>"
 
-ARG BRANCH_OR_TAG=release-1.1.0
-RUN env && \
-  apt-get update && \
-  apt-get install -y -q git cmake make g++-4.6 lcov && \
-  apt-get install -y -q automake autoconf libtool python && \
-  update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 20 && \
-  update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.6 20
+RUN env \
+  && apt-get update \
+  && apt-get install -y -q git cmake make g++ lcov \
+  && apt-get install -y -q automake autoconf libtool python-is-python3 \
+  && apt-get clean
 
-RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
-COPY gtest-filepath.patch /gtest/src/
-RUN cd /gtest/src && patch -u < gtest-filepath.patch
-RUN mkdir -p /gtest/build
+ARG BRANCH_OR_TAG=release-1.1.0
+ARG GMOCK_BRANCH_OR_TAG=release-1.0.0
+RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
+COPY patch /tmp/patch
+RUN git -C /gtest apply /tmp/patch/$BRANCH_OR_TAG.patch
 WORKDIR /gtest
 RUN autoreconf -fvi && \
   ./configure && \
   make && \
   make install
 
-RUN git clone -b $BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock && \
+RUN git clone -b $GMOCK_BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock && \
   mv /gtest /googlemock/gtest
 WORKDIR /googlemock
 RUN autoreconf -fvi \
