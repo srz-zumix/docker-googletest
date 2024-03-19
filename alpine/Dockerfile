@@ -9,8 +9,6 @@ RUN env \
 
 ARG BRANCH_OR_TAG=release-1.0.1
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
-COPY patch /tmp/patch
-RUN git -C /gtest apply /tmp/patch/$BRANCH_OR_TAG.patch
 WORKDIR /gtest
 RUN g++ --version \
   && autoreconf -fvi \
@@ -20,4 +18,4 @@ RUN g++ --version \
 
 RUN mkdir -p /code
 WORKDIR /code
-RUN rm -rf /gtest /tmp/patch
+RUN rm -rf /gtest
