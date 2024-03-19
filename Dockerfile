@@ -29,4 +29,4 @@ RUN autoreconf -fvi \
   && ldconfig
 RUN mkdir -p /code
 WORKDIR /code
-RUN rm -rf /googlemock
+RUN rm -rf /googlemock /tmp/patch
