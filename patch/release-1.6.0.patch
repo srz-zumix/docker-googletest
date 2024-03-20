@@ -1,0 +1,13 @@
+diff --git a/src/gtest-death-test.cc b/src/gtest-death-test.cc
+index 8b2e4131..71d35f07 100644
+--- a/src/gtest-death-test.cc
++++ b/src/gtest-death-test.cc
+@@ -943,7 +943,7 @@ bool StackLowerThanAddress(const void* ptr) {
+ }
+ 
+ bool StackGrowsDown() {
+-  int dummy;
++  int dummy = 0;
+   return StackLowerThanAddress(&dummy);
+ }
+ 

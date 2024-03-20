@@ -62,30 +62,34 @@ jobs:
       - name: Resolve build branch
         id: resolve
         env:
-          INPUTS_REF: ${{ inputs.ref || github.ref_name }}
+          INPUTS_REF: ${{ inputs.ref || github.base_ref || github.ref_name }}
         continue-on-error: true
         run: |
           if git ls-remote --heads --exit-code ${{ github.event.repository.html_url }} "refs/heads/${{ env.INPUTS_REF }}"; then
             echo "branch=${{ env.INPUTS_REF }}" >> "${GITHUB_OUTPUT}"
           else
-            echo "branch=${{ github.ref_name }}" >> "${GITHUB_OUTPUT}"
+            echo "branch=${{ github.ref }}" >> "${GITHUB_OUTPUT}"
           fi
       - name: Check out the repo
         uses: actions/checkout@v4
         with:
           ref: ${{ steps.resolve.outputs.branch }}
       - name: Log in to Docker Hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Push to Docker Hub
         uses: docker/build-push-action@v5
         with:
+          context: .
           push: ${{ inputs.publish }}
           tags: srzzumix/googletest:${{ needs.prepare.outputs.tagname }}
           build-args: |
             BRANCH_OR_TAG=${{ needs.prepare.outputs.branch }}
+      - name: Copy patch
+        run: |
+          cp -r patch alpine/patch || true
       - name: Push to Docker Hub (alpine)
         uses: docker/build-push-action@v5
         with:
