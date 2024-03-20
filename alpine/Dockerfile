@@ -6,7 +6,7 @@ ARG BRANCH_OR_TAG=release-1.5.0
 RUN env \
   && apk update && apk upgrade \
   && apk add --no-cache git cmake make g++ \
-  && apk add --no-cache --virtual .builddeps automake autoconf libtool python3 2to3
+  && apk add --no-cache --virtual .builddeps automake autoconf libtool python3
 
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest \
   && git clone --depth=1 -b release-1.8.0 -q https://github.com/google/googletest.git /gtest-1.8.0 \
