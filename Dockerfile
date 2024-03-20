@@ -19,8 +19,8 @@ RUN autoreconf -fvi && \
   make && \
   make install
 
-RUN git clone -b $GMOCK_BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock && \
-  cp -r /gtest /googlemock/gtest
+RUN git clone -b $GMOCK_BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock \
+  && cp -r /gtest /googlemock/gtest
 WORKDIR /googlemock
 RUN autoreconf -fvi \
   && ./configure \

@@ -20,7 +20,7 @@ RUN g++ --version \
   && make install
 
 RUN git clone --depth=1 -b $GMOCK_BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock \
-  && mv /gtest /googlemock/gtest
+  && cp -r /gtest /googlemock/gtest
 WORKDIR /googlemock
 RUN autoreconf -fvi \
   && ./configure \
@@ -29,4 +29,4 @@ RUN autoreconf -fvi \
   && apk del .builddeps
 RUN mkdir -p /code
 WORKDIR /code
-RUN rm -rf /googlemock /tmp/patch
+RUN rm -rf /gtest /googlemock /tmp/patch
