@@ -1,6 +1,7 @@
 name: Docker Build Cron
 on:
   pull_request:
+  workflow_dispatch:
   schedule:
     - cron: '0 0 * * 1'
 
@@ -24,7 +25,7 @@ jobs:
           echo "json=${TAGS}" | tee -a "${GITHUB_OUTPUT}"
 
   docker-build:
-    uses: srz-zumix/docker-googletest/.github/workflows/reusable-docker-build.yml@feature/cron_matrix_build
+    uses: srz-zumix/docker-googletest/.github/workflows/reusable-docker-build.yml@master
     needs: get-googletest-tags
     strategy:
       fail-fast: false
