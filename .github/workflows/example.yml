@@ -37,7 +37,7 @@ jobs:
         BRANCH=${GITHUB_REF#refs/heads/}
         echo $BRANCH
         if [ "$BRANCH" = "master" ]; then
-          echo "::set-env name=GTEST_EXPECT_LATEST::1"
+          echo "GTEST_EXPECT_LATEST=1" >> "${GITHUB_ENV}"
         fi
         if [[ "$BRANCH" =~ release-[0-9]+\.[0-9]+\.[0-9]+ ]]; then
           VERSION=${BRANCH#release-}
@@ -45,10 +45,10 @@ jobs:
           MINOR=`echo $VERSION | cut -d '.' -f 2 | xargs -P1 printf "%02g"`
           MICRO=`echo $VERSION | cut -d '.' -f 3 | xargs -P1 printf "%02g"`
           GTEST_EXPECT_VERSION=0x${MAJOR}${MINOR}${MICRO}00
-          echo "::set-env name=GTEST_EXPECT_VERSION::${GTEST_EXPECT_VERSION}"
-          echo "::set-env name=DOCKER_GOOGLETEST_VERSION::${BRANCH}"
+          echo ":GTEST_EXPECT_VERSION=${GTEST_EXPECT_VERSION}" >> "${GITHUB_ENV}"
+          echo ":DOCKER_GOOGLETEST_VERSION=${BRANCH}" >> "${GITHUB_ENV}"
         else
-          echo "::set-env name=DOCKER_GOOGLETEST_VERSION::latest"
+          echo ":DOCKER_GOOGLETEST_VERSION=latest" >> "${GITHUB_ENV}"
         fi
     - name: show env
       run: |
