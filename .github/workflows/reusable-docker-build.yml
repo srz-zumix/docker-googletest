@@ -80,7 +80,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Push to Docker Hub
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: ${{ inputs.publish }}
@@ -91,7 +91,7 @@ jobs:
         run: |
           cp -r patch alpine/patch || true
       - name: Push to Docker Hub (alpine)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: alpine
           push: ${{ inputs.publish }}
