@@ -11,6 +11,7 @@ index da09a1cf..92089ee2 100644
    bool result;
    StackLowerThanAddress(&dummy, &result);
    return result;
+
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
