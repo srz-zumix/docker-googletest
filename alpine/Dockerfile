@@ -4,7 +4,7 @@ LABEL maintainer "srz_zumix <https://github.com/srz-zumix>"
 
 RUN env \
   && apk update && apk upgrade \
-  && apk add --no-cache -q -f git cmake make g++ lcov gettext-base jq curl
+  && apk add --no-cache -q -f git cmake make g++ lcov jq curl gettext
 
 ARG BRANCH_OR_TAG=main
 ARG CMAKE_OPTIONS=
