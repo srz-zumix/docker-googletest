@@ -11,7 +11,7 @@ RUN env \
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletest.git /gtest
 RUN mkdir -p /gtest/build
 WORKDIR /gtest/build
-RUN cmake .. \
+RUN cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 .. \
   && make \
   && find ./ -name "*.a" | xargs -i cp -v {} /usr/local/lib \
   && cp -rv /gtest/include/gtest/. /usr/local/include/gtest/
