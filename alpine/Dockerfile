@@ -14,7 +14,7 @@ RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googletes
   && rm -rf /gtest-1.8.0
 RUN mkdir -p /gtest/build
 WORKDIR /gtest/build
-RUN cmake .. \
+RUN cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 .. \
   && make \
   && find ./ -name "*.a" | xargs -i cp -v {} /usr/local/lib \
   && [ ! -e /usr/local/include ] && mkdir -p /usr/local/include \
