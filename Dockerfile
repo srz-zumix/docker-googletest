@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:latest
 
 LABEL maintainer "srz_zumix <https://github.com/srz-zumix>"
 
@@ -19,7 +19,7 @@ RUN cmake .. \
 RUN git clone --depth=1 -b $BRANCH_OR_TAG -q https://github.com/google/googlemock.git /googlemock
 RUN mkdir -p /googlemock/build
 WORKDIR /googlemock/build
-RUN cmake .. \
+RUN cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 .. \
   && make \
   && find ./ -name "*.a" | xargs -i cp -v {} /usr/local/lib \
   && cp -rv /googlemock/include/gmock/. /usr/local/include/gmock/
